@@ -539,6 +539,71 @@ input:focus-visible {
   outline: 0;
   resize: vertical;
 }
+.choiceGroup,
+.ratingGroup {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #243d6d;
+}
+.choiceGroup legend,
+.ratingGroup legend {
+  padding: 0;
+  font-weight: 900;
+}
+.choiceOptions,
+.ratingOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.choiceOptions label,
+.ratingOptions label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.choiceOptions input,
+.ratingOptions input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.choiceOptions span,
+.ratingOptions span {
+  display: inline-grid;
+  place-items: center;
+  min-height: 44px;
+  border: 1px solid rgba(87, 125, 183, .18);
+  border-radius: 999px;
+  color: #243d6d;
+  background: #f8fbff;
+  transition: background .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+}
+.choiceOptions span {
+  min-width: 96px;
+  padding: 0 18px;
+}
+.ratingOptions span {
+  width: 46px;
+  font-weight: 900;
+}
+.choiceOptions input:checked + span,
+.ratingOptions input:checked + span {
+  border-color: transparent;
+  color: white;
+  background: #315a8d;
+  transform: translateY(-1px);
+}
+.choiceOptions input:focus-visible + span,
+.ratingOptions input:focus-visible + span {
+  outline: 3px solid rgba(49, 90, 141, .22);
+  outline-offset: 2px;
+}
 .feedbackForm .primaryButton {
   border: 0;
   cursor: pointer;
