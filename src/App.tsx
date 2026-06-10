@@ -54,6 +54,14 @@ const features = [
   },
 ]
 
+const upcomingFeatures = [
+  'Apple Watch Integration for Monitoring',
+  'Emergency Contacts',
+  'Dashboard',
+  'AI Summary for Checkup Reports',
+  'Collaboration for Sharing Routine with Fellow Caregiver',
+]
+
 const steps = [
   { title: 'Define Routines', image: howHomeFilled },
   { title: 'Track Vitals and Practices', image: howRoutineDetail },
@@ -751,6 +759,17 @@ function LandingPage({ onSelectTask }: { onSelectTask: (task: RoutineTask) => vo
         <h2 id="download-title">Download our App</h2>
         <div className="storeRow">
           <ComingSoonBadge />
+        </div>
+        <div className="upcomingFeatures" aria-labelledby="upcoming-features-title">
+          <p id="upcoming-features-title">Features coming soon</p>
+          <ul>
+            {upcomingFeatures.map((feature) => (
+              <li key={feature}>
+                <span aria-hidden="true">✓</span>
+                {feature}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
