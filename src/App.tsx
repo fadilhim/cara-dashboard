@@ -34,22 +34,110 @@ const steps = [
 
 const learnGroups = [
   {
-    title: 'Advanced Tracheostomy Support & Airway Clearing',
+    title: 'Physical Rehab',
     lessons: [
-      ['🛡', 'Emergency Trach Tube Dislodgement Response'],
-      ['✦', 'Inner Cannula Cleaning & Inspections'],
-      ['♨', 'Tracheostomy Suctioning Protocol'],
+      ['figure.dance', 'Assisted Shoulder Forward Flexion (Passive ROM)'],
+      ['figure.dance', 'Shoulder Outer Rotation (Passive ROM)'],
+      ['figure.dance', 'Elbow Extension & Forearm Turning (Passive ROM)'],
+      ['hand.raised.fill', 'Wrist & Finger Extension Stretch (Passive ROM)'],
+      ['hand.raised.fill', 'Hand & Finger Towel Grasp (Active-Assisted)'],
+      ['figure.walk', 'Assisted Hip & Knee Flexion / “Classic Heel Slides” (Passive ROM)'],
+      ['figure.walk', 'Hip Abduction / Outward Leg Slide (Passive ROM)'],
+      ['figure.walk', 'Ankle Dorsiflexion / Calf Stretch (Passive ROM)'],
+      ['figure.walk', 'Seated Ankle Taps (Active-Assisted)'],
+    ],
+  },
+  {
+    title: 'Swallowing & Oral Exercises',
+    lessons: [
+      ['mouth', 'Tongue In-and-Outs (Active / Active-Assisted)'],
+      ['mouth', 'Tongue Side-to-Side Movements'],
+      ['mouth', 'Tongue Up-and-Down Elevation'],
+      ['face.smiling', 'Lip Purse-to-Smile Flexing'],
+      ['hand.point.up', 'Lip Resistance Training (Caregiver Assisted)'],
+      ['face.smiling', 'Cheek Puffs (Intraoral Pressure Drill)'],
+      ['waveform.path.ecg', 'Effortless Swallow / Masako Maneuver'],
+      ['waveform.path.ecg', 'The Mendelsohn Maneuver (The Adam’s Apple Hold)'],
+      ['arrow.down.to.line', 'The Chin-Tuck Setup (Postural Drill)'],
     ],
   },
   {
     title: 'Daily Care Essentials',
     lessons: [
-      ['🧼', 'Assisted Sink Grooming (Oral & Shaving)'],
-      ['☾', 'Evening Wind-Down & Sundowning Prevention'],
-      ['▣', 'Pre-Medication Vitals Check'],
+      ['heart.text.square.fill', 'Pre-Medication Vitals Check'],
+      ['pills.fill', 'Scheduled Medication Administration'],
+      ['shower.fill', 'Safe Assisted Showering'],
+      ['comb.fill', 'Assisted Sink Grooming (Oral & Shaving)'],
+      ['calendar', 'Structured Orientation & Reality Check'],
+      ['moon.stars.fill', 'Evening Wind-Down & Sundowning Prevention'],
+    ],
+  },
+  {
+    title: 'Mobility Support & Safe Transfers',
+    lessons: [
+      ['arrow.left.and.right.righttriangle.left.righttriangle.right.fill', 'Bed-to-Chair Stand Pivot Transfer'],
+      ['arrow.2.squarepath', 'Log Roll Bed Turn'],
+      ['arrow.up.square.fill', 'Boosting a Patient Up in Bed (Two-Person Draw-Sheet Method)'],
+      ['alignment.vertical.center.fill', 'Assisted Sitting Edge-of-Bed Balance'],
+    ],
+  },
+  {
+    title: 'Skin Integrity & Pressure Management',
+    lessons: [
+      ['eye.fill', 'Sacrum & Heel Visual Pressure Check'],
+      ['clock.fill', 'The 2-Hour Side-to-Side Position Rotation'],
+      ['waveform', 'Heel Floating & Offloading Setup'],
+      ['hand.raised.slash.fill', 'Skin Shear Prevention During Adjustments'],
+    ],
+  },
+  {
+    title: 'Nasogastric Tube (NGT) Management & Feeding',
+    lessons: [
+      ['checkmark.shield.fill', 'Pre-Feeding Tube Verification & Residual Check'],
+      ['fork.knife.circle.fill', 'Gravity-Fed Bolus NGT Feeding'],
+      ['lock.fill', 'Post-Feed Flush & Lock'],
+    ],
+  },
+  {
+    title: 'Advanced Tracheostomy Support & Airway Clearing',
+    lessons: [
+      ['wind', 'Tracheostomy Suctioning Protocol'],
+      ['sparkles', 'Inner Cannula Cleaning & Inspections'],
+      ['exclamationmark.shield.fill', 'Emergency Trach Tube Dislodgement Response'],
     ],
   },
 ]
+
+const symbolLabels: Record<string, string> = {
+  'figure.dance': '♿',
+  'hand.raised.fill': '✋',
+  'figure.walk': '🚶',
+  mouth: '◡',
+  'face.smiling': '☺',
+  'hand.point.up': '☝',
+  'waveform.path.ecg': '⌁',
+  'arrow.down.to.line': '↓',
+  'heart.text.square.fill': '▣',
+  'pills.fill': '●',
+  'shower.fill': '♨',
+  'comb.fill': '▰',
+  calendar: '◷',
+  'moon.stars.fill': '☾',
+  'arrow.left.and.right.righttriangle.left.righttriangle.right.fill': '⇄',
+  'arrow.2.squarepath': '↻',
+  'arrow.up.square.fill': '↑',
+  'alignment.vertical.center.fill': '↕',
+  'eye.fill': '◉',
+  'clock.fill': '◴',
+  waveform: '⌁',
+  'hand.raised.slash.fill': '✋',
+  'checkmark.shield.fill': '✓',
+  'fork.knife.circle.fill': '◌',
+  'lock.fill': '●',
+  wind: '≋',
+  sparkles: '✦',
+  'exclamationmark.shield.fill': '!',
+}
 
 function Logo() {
   return (
@@ -141,9 +229,9 @@ function App() {
             <article key={group.title}>
               <h3>{group.title}</h3>
               <div className="lessonList">
-                {group.lessons.map(([icon, title]) => (
+                {group.lessons.map(([symbol, title]) => (
                   <button className="lesson" key={title} type="button">
-                    <span className="lessonIcon">{icon}</span>
+                    <span className="lessonIcon" title={symbol} aria-label={symbol}>{symbolLabels[symbol]}</span>
                     <span>{title}</span>
                     <span aria-hidden="true">⌄</span>
                   </button>
