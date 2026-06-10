@@ -3,10 +3,10 @@ import caraIcon from './assets/cara-icon.png'
 import heroRoutineCard from './assets/hero-routine-card.png'
 import heroTaskCard from './assets/hero-task-card.png'
 import homeScreen from './assets/home-screen.png'
-import howRoutines from './assets/how-1-routines.png'
-import howProcedures from './assets/how-2-procedures.png'
-import howVitals from './assets/how-3-vitals.png'
-import howNotes from './assets/how-4-notes.png'
+import howHomeFilled from './assets/how-1-home-filled.png'
+import howRoutineDetail from './assets/how-2-routine-detail.png'
+import howHomeCopy from './assets/how-3-home-copy-6.png'
+import howLearn from './assets/how-4-learn.png'
 
 type RoutineTask = {
   symbol: string
@@ -45,10 +45,10 @@ const features = [
 ]
 
 const steps = [
-  { title: 'Define Routines', image: howRoutines },
-  { title: 'Track Vitals and Practices', image: howProcedures },
-  { title: 'Keep notes for your next checkup', image: howVitals },
-  { title: 'Learn about your caregiving practices', image: howNotes },
+  { title: 'Define Routines', image: howHomeFilled },
+  { title: 'Track Vitals and Practices', image: howRoutineDetail },
+  { title: 'Keep notes for your next checkup', image: howHomeCopy },
+  { title: 'Learn about your caregiving practices', image: howLearn },
 ]
 
 const developers = ['Anabel', 'Fadil', 'Kean', 'Rei', 'Rhea', 'SuYeon'].map((name) => ({
