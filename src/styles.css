@@ -168,7 +168,7 @@ input:focus-visible {
 .heroCopy h1 {
   margin: 0 0 14px;
   font-size: clamp(46px, 7vw, 72px);
-  line-height: .92;
+  line-height: 1;
   letter-spacing: -3.2px;
 }
 
@@ -448,7 +448,85 @@ input:focus-visible {
   transition: transform .2s ease, background .2s ease;
 }
 .lesson:hover { transform: translateY(-2px); background: white; }
-.lessonIcon { width: 43px; height: 43px; font-size: 20px; }
+.lessonIcon {
+  width: 43px;
+  height: 43px;
+  padding: 9px;
+  overflow: hidden;
+}
+.lessonIcon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.taskModalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background: rgba(11, 25, 46, .34);
+  backdrop-filter: blur(12px);
+}
+.taskModal {
+  position: relative;
+  width: min(520px, 100%);
+  border-radius: 30px;
+  padding: 24px;
+  background: linear-gradient(180deg, #f9fbff, #edf4ff);
+  box-shadow: 0 30px 80px rgba(11, 25, 46, .32);
+  text-align: left;
+}
+.modalClose {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 999px;
+  color: #294b7a;
+  background: rgba(198, 216, 242, .68);
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+}
+.modalHeader {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding-right: 40px;
+}
+.modalHeader .lessonIcon {
+  width: 52px;
+  height: 52px;
+  padding: 10px;
+}
+.modalHeader small {
+  display: block;
+  margin-bottom: 4px;
+  color: #7190be;
+  font-weight: 800;
+}
+.modalHeader h3 {
+  margin: 0;
+  color: #243d6d;
+  font-size: 22px;
+  line-height: 1.15;
+}
+.taskIllustration {
+  display: block;
+  width: 100%;
+  max-height: 390px;
+  object-fit: contain;
+  margin-top: 20px;
+  border-radius: 24px;
+  background: white;
+}
 
 .download { padding-top: 76px; }
 .storeRow { display: flex; justify-content: center; gap: 9px; margin-top: 14px; }
