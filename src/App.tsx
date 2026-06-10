@@ -1,3 +1,12 @@
+import caraIcon from './assets/cara-icon.png'
+import heroRoutineCard from './assets/hero-routine-card.png'
+import heroTaskCard from './assets/hero-task-card.png'
+import homeScreen from './assets/home-screen.png'
+import howRoutines from './assets/how-1-routines.png'
+import howProcedures from './assets/how-2-procedures.png'
+import howVitals from './assets/how-3-vitals.png'
+import howNotes from './assets/how-4-notes.png'
+
 const features = [
   {
     icon: '▦',
@@ -17,10 +26,10 @@ const features = [
 ]
 
 const steps = [
-  { title: 'Define Routines', lines: ['Caregiving', 'Morning', 'Afternoon', 'Night'] },
-  { title: 'Execute Procedures', lines: ['Emergency trach', 'Inner cannula', 'Suctioning'] },
-  { title: 'Record Vitals', lines: ['HR', 'Temp', 'SpO₂', 'RR'] },
-  { title: 'Review Notes', lines: ['Describe what happened'] },
+  { title: 'Define Routines', image: howRoutines },
+  { title: 'Execute Procedures', image: howProcedures },
+  { title: 'Record Vitals', image: howVitals },
+  { title: 'Review Notes', image: howNotes },
 ]
 
 const learnGroups = [
@@ -51,7 +60,7 @@ const testimonials = [
 function Logo() {
   return (
     <a className="logo" href="#top" aria-label="Cara home">
-      <span className="logoMark">⌂</span>
+      <img className="logoMark" src={caraIcon} alt="" />
       <span>Cara</span>
     </a>
   )
@@ -60,47 +69,21 @@ function Logo() {
 function PhoneMockup() {
   return (
     <div className="deviceScene" aria-label="Cara app preview">
-      <div className="floatingCard leftCard">
-        <span className="miniIcon">!</span>
-        <strong>Emergency Trach Tube</strong>
-        <small>Response</small>
-      </div>
-      <div className="floatingCard rightCard">
-        <span>Vitals</span>
-        <div className="vitalGrid">
-          <b>98</b><b>72</b><b>16</b>
-        </div>
-      </div>
+      <img className="floatingImage leftCard" src={heroTaskCard} alt="Care tasks preview" />
+      <img className="floatingImage rightCard" src={heroRoutineCard} alt="Morning routine preview" />
       <div className="phone">
-        <div className="phoneBar" />
-        <div className="phoneHeader">
-          <small>7:30</small>
-          <strong>Caregiving</strong>
-        </div>
-        <section className="routineCard">
-          <div>
-            <small>Routines</small>
-            <h3>Morning</h3>
-          </div>
-          <span>Now</span>
-        </section>
-        <div className="taskList">
-          <div><span /> Medication reminder</div>
-          <div><span /> Assisted sink grooming</div>
-          <div><span /> Vitals check</div>
-        </div>
-        <div className="tabBar"><span /> <span /> <span /></div>
+        <img src={homeScreen} alt="Cara mobile app home screen" />
       </div>
     </div>
   )
 }
 
-function StoreBadge({ kind }: { kind: 'apple' | 'google' }) {
+function StoreBadge() {
   return (
-    <a href="#download" className="storeBadge" aria-label={`Download Cara on ${kind === 'apple' ? 'the App Store' : 'Google Play'}`}>
-      <span>{kind === 'apple' ? '' : '▶'}</span>
-      <small>{kind === 'apple' ? 'Download on the' : 'GET IT ON'}</small>
-      <strong>{kind === 'apple' ? 'App Store' : 'Google Play'}</strong>
+    <a href="#download" className="storeBadge" aria-label="Download Cara on the App Store">
+      <span></span>
+      <small>Download on the</small>
+      <strong>App Store</strong>
     </a>
   )
 }
@@ -147,7 +130,7 @@ function App() {
             <article className="step" key={step.title}>
               <span className="stepNumber">{index + 1}</span>
               <div className="stepScreen">
-                {step.lines.map((line) => <p key={line}>{line}</p>)}
+                <img src={step.image} alt={`${step.title} app screen`} />
               </div>
               <h3>{step.title}</h3>
             </article>
@@ -182,8 +165,7 @@ function App() {
       <section id="download" className="download" aria-labelledby="download-title">
         <h2 id="download-title">Download our App</h2>
         <div className="storeRow">
-          <StoreBadge kind="apple" />
-          <StoreBadge kind="google" />
+          <StoreBadge />
         </div>
       </section>
 
@@ -197,7 +179,7 @@ function App() {
       </section>
 
       <footer>
-        <span>© 2025 — Cara, Inc.</span>
+        <span>© 2026 — Cara, Inc.</span>
         <nav aria-label="Footer navigation">
           <a href="#top">Home</a>
           <a href="#learn">Links</a>
