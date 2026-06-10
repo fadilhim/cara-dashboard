@@ -814,8 +814,10 @@ function FeedbackPage() {
     const form = event.currentTarget
     const formData = new FormData(form)
     const googleFormData = new FormData()
+    const email = String(formData.get('email') ?? '')
+    googleFormData.append('emailAddress', email)
     googleFormData.append(feedbackFields.name, String(formData.get('name') ?? ''))
-    googleFormData.append(feedbackFields.email, String(formData.get('email') ?? ''))
+    googleFormData.append(feedbackFields.email, email)
     googleFormData.append(feedbackFields.message, String(formData.get('message') ?? ''))
 
     if (!feedbackEndpoint) {
@@ -851,7 +853,7 @@ function FeedbackPage() {
         </label>
         <label>
           <span>Email</span>
-          <input name="email" type="email" placeholder="you@example.com" />
+          <input name="email" type="email" placeholder="you@example.com" required />
         </label>
         <label>
           <span>Feedback</span>
