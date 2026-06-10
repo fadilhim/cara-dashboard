@@ -24,7 +24,15 @@ type LearnGroup = {
 const taskIllustrations = import.meta.glob('./assets/task-images/*.png', { eager: true, import: 'default' }) as Record<string, string>
 const symbolImages = import.meta.glob('./assets/sf-symbols/*.png', { eager: true, import: 'default' }) as Record<string, string>
 const teamImages = import.meta.glob('./assets/team/*.png', { eager: true, import: 'default' }) as Record<string, string>
-const feedbackEndpoint = import.meta.env.VITE_FEEDBACK_ENDPOINT as string | undefined
+const feedbackEndpoint =
+  (import.meta.env.VITE_FEEDBACK_ENDPOINT as string | undefined) ??
+  'https://docs.google.com/forms/d/e/1FAIpQLScssJojJx68BGSYx7mM5-fFwIDs1JK7NJc5sgMntn5ZwmlGag/formResponse'
+
+const feedbackFields = {
+  name: 'entry.630295954',
+  email: 'entry.2084181054',
+  message: 'entry.1963490574',
+}
 
 const features = [
   {
@@ -805,12 +813,10 @@ function FeedbackPage() {
     event.preventDefault()
     const form = event.currentTarget
     const formData = new FormData(form)
-    const payload = {
-      name: String(formData.get('name') ?? ''),
-      email: String(formData.get('email') ?? ''),
-      message: String(formData.get('message') ?? ''),
-      createdAt: new Date().toISOString(),
-    }
+    const googleFormData = new FormData()
+    googleFormData.append(feedbackFields.name, String(formData.get('name') ?? ''))
+    googleFormData.append(feedbackFields.email, String(formData.get('email') ?? ''))
+    googleFormData.append(feedbackFields.message, String(formData.get('message') ?? ''))
 
     if (!feedbackEndpoint) {
       setStatus('error')
@@ -822,8 +828,7 @@ function FeedbackPage() {
       await fetch(feedbackEndpoint, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload),
+        body: googleFormData,
       })
       form.reset()
       setStatus('sent')
