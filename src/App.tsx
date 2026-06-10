@@ -51,12 +51,6 @@ const learnGroups = [
   },
 ]
 
-const testimonials = [
-  ['Cara makes every shift feel organized instead of overwhelming.', 'Joh Funa'],
-  ['There is finally one calm place for care steps, notes, and learning.', 'Eerea Buneras'],
-  ['Medical notes stay visible, eligible, and easy to understand.', 'Sanny Daman'],
-]
-
 function Logo() {
   return (
     <a className="logo" href="#top" aria-label="Cara home">
@@ -78,13 +72,11 @@ function PhoneMockup() {
   )
 }
 
-function StoreBadge() {
+function ComingSoonBadge() {
   return (
-    <a href="#download" className="storeBadge" aria-label="Download Cara on the App Store">
-      <span></span>
-      <small>Download on the</small>
-      <strong>App Store</strong>
-    </a>
+    <div className="comingSoonBadge" aria-label="Cara app coming soon">
+      Coming Soon
+    </div>
   )
 }
 
@@ -101,14 +93,14 @@ function App() {
           <a href="#learn">Learn</a>
           <a href="#download">Download</a>
         </nav>
-        <a className="signUp" href="#download">Sign Up</a>
+
       </header>
 
       <section className="hero" aria-labelledby="hero-title">
         <div className="heroCopy">
           <h1 id="hero-title">Caregiving,<br />Simplified.</h1>
           <p>Empower your home care with Cara.</p>
-          <a className="primaryButton" href="#download">Get Cara for iOS</a>
+          <a className="primaryButton" href="#download">Coming Soon</a>
         </div>
         <PhoneMockup />
       </section>
@@ -165,17 +157,8 @@ function App() {
       <section id="download" className="download" aria-labelledby="download-title">
         <h2 id="download-title">Download our App</h2>
         <div className="storeRow">
-          <StoreBadge />
+          <ComingSoonBadge />
         </div>
-      </section>
-
-      <section className="testimonials" aria-label="Caregiver testimonials">
-        {testimonials.map(([quote, name]) => (
-          <figure key={name}>
-            <blockquote>“{quote}”</blockquote>
-            <figcaption>{name}</figcaption>
-          </figure>
-        ))}
       </section>
 
       <footer>

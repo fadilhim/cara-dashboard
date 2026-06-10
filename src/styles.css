@@ -91,7 +91,7 @@ a { color: inherit; text-decoration: none; }
   top: 14px;
   z-index: 20;
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 24px;
   padding: 10px 12px;
@@ -136,7 +136,6 @@ input:focus-visible {
   outline-offset: 4px;
 }
 
-.signUp,
 .primaryButton {
   display: inline-flex;
   align-items: center;
@@ -147,11 +146,9 @@ input:focus-visible {
   box-shadow: 0 12px 24px rgba(27, 52, 91, .22);
 }
 
-.signUp { padding: 12px 18px; }
 .primaryButton { padding: 14px 23px; font-weight: 800; }
 
-.primaryButton:hover,
-.signUp:hover { transform: translateY(-2px); background: #27486f; color: white; }
+.primaryButton:hover { transform: translateY(-2px); background: #27486f; color: white; }
 
 #features,
 #how-it-works,
@@ -455,34 +452,19 @@ input:focus-visible {
 
 .download { padding-top: 76px; }
 .storeRow { display: flex; justify-content: center; gap: 9px; margin-top: 14px; }
-.storeBadge {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 7px;
+.comingSoonBadge {
+  display: inline-flex;
   align-items: center;
-  min-width: 126px;
-  padding: 7px 12px;
-  border-radius: 7px;
-  background: #050608;
+  justify-content: center;
+  min-width: 160px;
+  padding: 14px 22px;
+  border-radius: 999px;
   color: white;
-  text-align: left;
-  line-height: 1;
+  background: #050608;
+  font-weight: 900;
+  letter-spacing: .2px;
+  box-shadow: 0 14px 26px rgba(27, 52, 91, .18);
 }
-.storeBadge span { grid-row: 1 / 3; font-size: 24px; }
-.storeBadge small { font-size: 8px; text-transform: uppercase; }
-.storeBadge strong { font-size: 15px; }
-
-.testimonials {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 48px;
-  padding: 60px 0 45px;
-  text-align: center;
-}
-figure { margin: 0; }
-blockquote { margin: 0 0 14px; font-size: 13px; line-height: 1.25; }
-figcaption { font-size: 12px; font-weight: 800; }
 
 footer {
   display: flex;
@@ -503,7 +485,7 @@ footer nav { display: flex; gap: 28px; }
   .deviceScene { min-height: 355px; margin-top: 8px; }
   .leftCard { left: 0; }
   .rightCard { right: 0; }
-  .features, .steps, .learnGrid, .testimonials { grid-template-columns: 1fr; }
+  .features, .steps, .learnGrid { grid-template-columns: 1fr; }
   .features { gap: 28px; padding-bottom: 58px; }
   .featureCard { text-align: center; }
   .steps { gap: 36px; max-width: 250px; margin-left: auto; margin-right: auto; }
@@ -515,7 +497,6 @@ footer nav { display: flex; gap: 28px; }
   .phone { transform: rotate(5deg); }
   .floatingCard { display: none; }
   .storeRow { flex-direction: column; align-items: center; }
-  .storeBadge { width: 150px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
