@@ -31,6 +31,8 @@ const feedbackEndpoint =
 const feedbackFields = {
   name: 'entry.630295954',
   email: 'entry.2084181054',
+  useFamily: 'entry.1754160539',
+  rating: 'entry.446454381',
   message: 'entry.1963490574',
 }
 
@@ -818,6 +820,8 @@ function FeedbackPage() {
     googleFormData.append('emailAddress', email)
     googleFormData.append(feedbackFields.name, String(formData.get('name') ?? ''))
     googleFormData.append(feedbackFields.email, email)
+    googleFormData.append(feedbackFields.useFamily, String(formData.get('useFamily') ?? ''))
+    googleFormData.append(feedbackFields.rating, String(formData.get('rating') ?? ''))
     googleFormData.append(feedbackFields.message, String(formData.get('message') ?? ''))
 
     if (!feedbackEndpoint) {
@@ -855,6 +859,30 @@ function FeedbackPage() {
           <span>Email</span>
           <input name="email" type="email" placeholder="you@example.com" required />
         </label>
+        <fieldset className="choiceGroup">
+          <legend>Would you use CARA for your family?</legend>
+          <div className="choiceOptions">
+            <label>
+              <input name="useFamily" type="radio" value="Yes" required />
+              <span>Yes</span>
+            </label>
+            <label>
+              <input name="useFamily" type="radio" value="No" required />
+              <span>No</span>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset className="ratingGroup">
+          <legend>How would you rate the app?</legend>
+          <div className="ratingOptions" aria-label="Rate the app from 1 to 5">
+            {[1, 2, 3, 4, 5].map((rating) => (
+              <label key={rating}>
+                <input name="rating" type="radio" value={rating} required />
+                <span>{rating}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
         <label>
           <span>Feedback</span>
           <textarea name="message" placeholder="Share your thoughts..." rows={7} required />
