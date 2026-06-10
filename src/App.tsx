@@ -180,11 +180,6 @@ function App() {
 
       <footer>
         <span>© 2026 — Cara, Inc.</span>
-        <nav aria-label="Footer navigation">
-          <a href="#top">Home</a>
-          <a href="#learn">Links</a>
-          <a href="mailto:hello@cara.care">Contact</a>
-        </nav>
       </footer>
     </main>
   )
