@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { type FormEvent, useEffect, useMemo, useState } from 'react'
 import caraIcon from './assets/cara-icon.png'
 import heroRoutineCard from './assets/hero-routine-card.png'
 import heroTaskCard from './assets/hero-task-card.png'
@@ -23,6 +23,8 @@ type LearnGroup = {
 
 const taskIllustrations = import.meta.glob('./assets/task-images/*.png', { eager: true, import: 'default' }) as Record<string, string>
 const symbolImages = import.meta.glob('./assets/sf-symbols/*.png', { eager: true, import: 'default' }) as Record<string, string>
+const teamImages = import.meta.glob('./assets/team/*.png', { eager: true, import: 'default' }) as Record<string, string>
+const feedbackEndpoint = import.meta.env.VITE_FEEDBACK_ENDPOINT as string | undefined
 
 const features = [
   {
@@ -44,10 +46,15 @@ const features = [
 
 const steps = [
   { title: 'Define Routines', image: howRoutines },
-  { title: 'Execute Procedures', image: howProcedures },
-  { title: 'Record Vitals', image: howVitals },
-  { title: 'Review Notes', image: howNotes },
+  { title: 'Track Vitals and Practices', image: howProcedures },
+  { title: 'Keep notes for your next checkup', image: howVitals },
+  { title: 'Learn about your caregiving practices', image: howNotes },
 ]
+
+const developers = ['Anabel', 'Fadil', 'Kean', 'Rei', 'Rhea', 'SuYeon'].map((name) => ({
+  name,
+  image: teamImages[`./assets/team/${name}.png`],
+}))
 
 const learnGroups: LearnGroup[] = [
   {
@@ -615,7 +622,8 @@ function Header() {
         <a href="#how-it-works">How it Works</a>
         <a href="#features">Features</a>
         <a href="#learn">Learn</a>
-        <a href="#download">Download</a>
+        <a href="#developers">Developers</a>
+        <a href="#/feedback">Feedback</a>
       </nav>
     </header>
   )
@@ -689,9 +697,9 @@ function LandingPage({ onSelectTask }: { onSelectTask: (task: RoutineTask) => vo
     <>
       <section className="hero" aria-labelledby="hero-title">
         <div className="heroCopy">
-          <h1 id="hero-title">Caregiving, Simplified.</h1>
-          <p>Transitioning into a caregiving role is a massive shift. Cara helps you structure your caregiving routines to tend to your loved ones easily.</p>
-          <a className="primaryButton" href="#download">Coming Soon</a>
+          <h1 id="hero-title">Give Care With Confidence.</h1>
+          <p>Empower your transition into a caregiving role by helping you structure your routines to tend to your loved ones easily.</p>
+          <a className="primaryButton" href="#download">Start Care With Cara</a>
         </div>
         <PhoneMockup />
       </section>
@@ -723,10 +731,6 @@ function LandingPage({ onSelectTask }: { onSelectTask: (task: RoutineTask) => vo
 
       <section id="learn" className="learn" aria-labelledby="learn-title">
         <h2 id="learn-title">The Cara Learn Center</h2>
-        <label className="searchBox">
-          <span>⌕</span>
-          <input type="search" placeholder="Search tasks..." />
-        </label>
         <div className="previewTaskGrid">
           {previewTasks.map((task) => <TaskCard key={task.title} task={task} onClick={() => onSelectTask(task)} />)}
         </div>
@@ -739,32 +743,119 @@ function LandingPage({ onSelectTask }: { onSelectTask: (task: RoutineTask) => vo
           <ComingSoonBadge />
         </div>
       </section>
+
+      <section id="developers" className="developers" aria-labelledby="developers-title">
+        <h2 id="developers-title">Meet the Developers</h2>
+        <div className="developerGrid">
+          {developers.map((developer) => (
+            <article className="developerCard" key={developer.name}>
+              <img src={developer.image} alt={`${developer.name} portrait`} />
+              <h3>{developer.name}</h3>
+            </article>
+          ))}
+        </div>
+      </section>
     </>
   )
 }
 
 function TasksPage({ onSelectTask }: { onSelectTask: (task: RoutineTask) => void }) {
   const [query, setQuery] = useState('')
-  const filteredTasks = useMemo(() => {
+  const filteredGroups = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase()
-    if (!normalizedQuery) return allTasks
-    return allTasks.filter((task) => `${task.title} ${task.description}`.toLowerCase().includes(normalizedQuery))
+    return learnGroups
+      .map((group) => ({
+        ...group,
+        lessons: normalizedQuery
+          ? group.lessons.filter((task) => `${task.title} ${task.description}`.toLowerCase().includes(normalizedQuery))
+          : group.lessons,
+      }))
+      .filter((group) => group.lessons.length > 0)
   }, [query])
 
   return (
     <section className="tasksPage" aria-labelledby="tasks-title">
       <a className="backLink" href="#learn">← Back to landing page</a>
       <div className="tasksPageHeader">
-        <h1 id="tasks-title">All Care Tasks</h1>
+        <h1 id="tasks-title">All Caregiving Tasks</h1>
         <p>Explore every default Cara task. Select a card to see the task description, illustration, and step-by-step guidance.</p>
       </div>
       <label className="searchBox tasksSearch">
         <span>⌕</span>
         <input type="search" placeholder="Search all tasks..." value={query} onChange={(event) => setQuery(event.target.value)} />
       </label>
-      <div className="allTasksGrid">
-        {filteredTasks.map((task) => <TaskCard key={task.title} task={task} onClick={() => onSelectTask(task)} />)}
+      <div className="categorizedTasks">
+        {filteredGroups.map((group) => (
+          <section className="taskCategory" key={group.title} aria-labelledby={`category-${group.title}`}>
+            <h2 id={`category-${group.title}`}>{group.title}</h2>
+            <div className="allTasksGrid">
+              {group.lessons.map((task) => <TaskCard key={task.title} task={task} onClick={() => onSelectTask(task)} />)}
+            </div>
+          </section>
+        ))}
       </div>
+    </section>
+  )
+}
+
+function FeedbackPage() {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const form = event.currentTarget
+    const formData = new FormData(form)
+    const payload = {
+      name: String(formData.get('name') ?? ''),
+      email: String(formData.get('email') ?? ''),
+      message: String(formData.get('message') ?? ''),
+      createdAt: new Date().toISOString(),
+    }
+
+    if (!feedbackEndpoint) {
+      setStatus('error')
+      return
+    }
+
+    setStatus('sending')
+    try {
+      await fetch(feedbackEndpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+      })
+      form.reset()
+      setStatus('sent')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <section className="feedbackPage" aria-labelledby="feedback-title">
+      <a className="backLink" href="#top">← Back to landing page</a>
+      <div className="tasksPageHeader">
+        <h1 id="feedback-title">Send Feedback</h1>
+        <p>Tell us what would make Cara more useful for your caregiving routine.</p>
+      </div>
+      <form className="feedbackForm" onSubmit={handleSubmit}>
+        <label>
+          <span>Name</span>
+          <input name="name" type="text" placeholder="Your name" required />
+        </label>
+        <label>
+          <span>Email</span>
+          <input name="email" type="email" placeholder="you@example.com" />
+        </label>
+        <label>
+          <span>Feedback</span>
+          <textarea name="message" placeholder="Share your thoughts..." rows={7} required />
+        </label>
+        <button className="primaryButton" type="submit" disabled={status === 'sending'}>{status === 'sending' ? 'Sending...' : 'Submit Feedback'}</button>
+        {status === 'sent' && <p className="formStatus success">Thank you — your feedback was sent.</p>}
+        {status === 'error' && <p className="formStatus error">Feedback is ready, but no Google Sheet endpoint is configured yet.</p>}
+      </form>
     </section>
   )
 }
@@ -773,13 +864,14 @@ function App() {
   const [selectedTask, setSelectedTask] = useState<RoutineTask | null>(null)
   const hash = useHashRoute()
   const isTasksPage = hash === '#/tasks'
+  const isFeedbackPage = hash === '#/feedback'
 
   return (
     <main id="top" className="pageShell">
       <div className="orb orbOne" />
       <div className="orb orbTwo" />
       <Header />
-      {isTasksPage ? <TasksPage onSelectTask={setSelectedTask} /> : <LandingPage onSelectTask={setSelectedTask} />}
+      {isFeedbackPage ? <FeedbackPage /> : isTasksPage ? <TasksPage onSelectTask={setSelectedTask} /> : <LandingPage onSelectTask={setSelectedTask} />}
 
       <footer>
         <span>© 2026 — Cara, Inc.</span>
